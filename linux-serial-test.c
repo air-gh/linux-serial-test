@@ -371,7 +371,9 @@ void process_write_data()
 		ssize_t c = write(_fd, _write_data, _write_size);
 
 		if (c < 0) {
-			printf("write failed (%d)\n", errno);
+			if (errno != EAGAIN && errno != EWOULDBLOCK) {
+				printf("write failed (%d)\n", errno);
+			}
 			c = 0;
 		}
 
